@@ -1,0 +1,37 @@
+name: Dev-Build-$(rev:r)
+
+trigger: 
+  batch: true
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - .ado/workflows/aml/dataProductAmlEndPointPipelineDevCD.yml
+      - code/aml/*
+
+resources:
+  repositories:
+    - repository: templates
+      type: git
+      name: "SyNeos Analytics Platform/devops"
+
+pool:
+  vmImage: "ubuntu-latest"
+
+variables:            
+  - group: demodp-dev-variables # To be renamed
+  - group: shiftleft-token
+
+extends:
+  template: aml/data-product-aml-endpoint-cd.yml@templates
+  parameters:
+      resourceManagerConnectionName: $(resourceManagerConnectionName)
+      dataProductName: $(dataProductName)
+      dataProductSubscription: $(dataProductSubscription)
+      resourceGroupName: $(resourceGroupName)
+      amlWorkspaceName: $(amlWorkspaceName)
+      jupyterNotebookFilename: deployAMLEndPointPipeline.ipynb
+      kdbLicense: $(kdbLicense)
+      onlineEndPointName: 
+        - demodp-endpoint-dev-new001 # To be renamed

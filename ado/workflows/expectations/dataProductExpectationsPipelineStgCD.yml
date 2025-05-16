@@ -1,0 +1,35 @@
+name: Data Product Expectations Curated STG
+
+trigger:
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - expectations/*
+      - .ado/workflows/expectations/dataProductExpectationsPipelineStgCD.yml
+
+pr:
+  branches:
+    include:
+      - staging
+  paths:
+    include:
+      - expectations/*
+      - .ado/workflows/expectations/dataProductExpectationsPipelineStgCD.yml
+
+resources:
+  repositories:
+    - repository: embedded_templates
+      type: git
+      name: "Syneos Analytics Platform/devops"
+
+pool:
+  name: 'SNAP-STG-Agent-Pool'
+  demands:
+  - Agent.Name -equals iepdlz01-stg-azdoagent001
+
+extends:
+  template: expectations/dataProductExpectationsStgCDTemplate.yml@embedded_templates
+  parameters:
+    variable_group_name: "demodp-stg-variables"

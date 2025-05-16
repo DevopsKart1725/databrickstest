@@ -1,0 +1,29 @@
+name: Dev-Integration-Tests-$(rev:r)
+
+schedules:
+- cron: "0 5 * * *" # cron syntax defining a schedule
+  displayName: Daily DemoDP integration test # friendly name given to a specific schedule
+  branches:
+    include: 
+      - main
+  always: true # whether to always run the pipeline or only if there have been source code changes since the last successful scheduled run. The default is false.
+
+resources:
+  repositories:
+    - repository: templates
+      type: git
+      name: "SyNeos Analytics Platform/devops"
+
+pool:
+  vmImage: "ubuntu-latest"
+
+variables:
+  - group: demodp-dev-variables # To be renamed
+
+extends:
+  template: adf/integration-test.yml@templates
+  parameters:
+    dataProductSubscription: $(dataProductSubscription)
+    dataFactoryName: $(dataFactoryName)
+    resourceGroupName: $(resourceGroupName)
+    testSuiteName: "Data Landing Zone Integration Tests"

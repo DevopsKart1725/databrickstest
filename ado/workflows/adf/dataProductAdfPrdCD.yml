@@ -1,0 +1,28 @@
+trigger: none
+resources:
+  repositories:
+  - repository: templates
+    type: git
+    name: SyNeos Analytics Platform/devops
+  pipelines:
+  - pipeline: ci-pipeline
+    source: synhdq-PRD-adf-CI
+    trigger:
+      branches:
+      - production
+pool:
+  vmImage: ubuntu-latest
+variables:
+- group: synhdq-prd-variables
+extends:
+  template: data-product-adf-cd.yml@templates
+  parameters:
+    armServiceConnnection: $(resourceManagerConnectionName)
+    deployDataFactoryName: $(dataFactoryName)
+    resourceGroupName: $(resourceGroupName)
+    artifactPipeline: ci-pipeline
+    sourceDataFactoryName: $(devDataFactoryName)
+    overridenProperties: 
+      - "Corporate-Network-SHIR_properties_typeProperties_linkedInfo_resourceId /subscriptions/$(dataProductSubscription)/resourceGroups/iepdlz01-$(environment)-runtimes/providers/Microsoft.DataFactory/factories/iepdlz01-$(environment)-runtime-datafactory001/integrationRuntimes/dataLandingZoneShir-iepdlz01-$(environment)-shir001"
+      - "AzureDataLakeStorage300_properties_privateLinkResourceId /subscriptions/$(dataProductSubscription)/resourceGroups/iepdlz01-$(environment)-storage/providers/Microsoft.Storage/storageAccounts/iepdlz01$(environment)encur"
+

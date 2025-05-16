@@ -1,0 +1,37 @@
+name: Data Product Deployment PRD
+trigger:
+  branches:
+    include:
+    - production
+  paths:
+    include:
+    - code/*
+    - infra/*
+    - .ado/workflows/dataProductDeploymentPrd.yml
+    exclude:
+    - code/adf/*
+    - code/aml/*
+    - infra/params.dev.json
+    - infra/params.stg.json
+pr:
+  branches:
+    include:
+    - production
+  paths:
+    include:
+    - code/*
+    - infra/*
+    - .ado/workflows/dataProductDeploymentPrd.yml
+resources:
+  repositories:
+  - repository: embedded_templates
+    type: git
+    name: Syneos Analytics Platform/devops
+pool:
+  vmImage: ubuntu-latest
+extends:
+  template: infra/dataProductDeploymentPrdTemplate.yml@embedded_templates
+  parameters:
+    variable_group_name: synhdq-prd-variables
+    databricks_enabled: false
+

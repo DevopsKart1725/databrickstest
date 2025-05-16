@@ -1,0 +1,27 @@
+name: Prd-Build-$(rev:r)
+trigger:
+  batch: true
+  branches:
+    include:
+    - production
+  paths:
+    include:
+    - .ado/workflows/adf/dataProductAdfPrdCI.yml
+    - code/adf/*
+resources:
+  repositories:
+  - repository: templates
+    type: git
+    name: SyNeos Analytics Platform/devops
+pool:
+  vmImage: ubuntu-latest
+variables:
+- group: synhdq-prd-variables
+extends:
+  template: data-product-adf-ci.yml@templates
+  parameters:
+    azureSubscription: $(dataProductSubscription)
+    sourceDataFactoryName: $(devDataFactoryName)
+    resourceGroupName: $(resourceGroupName)
+    adfConfigFolder: code/adf
+

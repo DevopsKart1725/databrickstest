@@ -1,0 +1,23 @@
+name: Prd-Data-Migration-$(rev:r)
+trigger:
+  batch: true
+  branches:
+    include:
+    - production
+  paths:
+    include:
+    - .ado/workflows/data_migration/dataMigrationPipelinePrd.yml
+    - data_onetime_migration/**
+variables:
+- name: destinationPath
+  value: synhdq
+- name: sourcePath
+  value: data_onetime_migration
+steps:
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: IEP-LANDING-PRD-AzureDevOpsPipelineSP
+    scriptType: bash
+    scriptLocation: inlineScript
+    inlineScript: az storage blob upload-batch --auth-mode login -d $(destinationPath)/git --account-name "iepdlz01prdraw" -s "$(System.DefaultWorkingDirectory)/$(sourcePath)/" --overwrite
+

@@ -1,0 +1,34 @@
+# Continuous Integration (CI) pipeline that orchestrates the training, evaluation, and registration of the ml model.
+
+resources:
+  containers:
+  - container: mlops
+    image: mcr.microsoft.com/mlops/python:latest
+  repositories:
+  - repository: templates
+    type: git
+    name: "SyNeos Analytics Platform/devops"
+
+trigger:
+  branches:
+    include:
+    - main
+  paths:
+    include:
+    - code/aml_machinelearning
+
+pool:
+  vmImage: ubuntu-latest
+
+
+extends:
+  template: aml_machinelearning/data-product-MLOps-Training-Pipeline.yml@templates
+  parameters:
+    pipelines:
+    - fileName: ml-variables-stg-template.yml
+      modulePath: ml_service.pipelines.ml_build_train_pipeline
+      pipelineName: Diabetes
+    - fileName: ml-variables-stg-template.yml
+      modulePath: ml_service.pipelines.ml_build_parallel_batchscore_pipeline
+      pipelineName: Diabetes_Scoring
+    variableGroup: demodp-stg-variables # to be renamed

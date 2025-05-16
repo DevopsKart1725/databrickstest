@@ -1,0 +1,27 @@
+name: Dev-Build-$(rev:r)
+trigger:
+  batch: true
+  branches:
+    include:
+    - main
+  paths:
+    include:
+    - .ado/workflows/adf/dataProductAdfDevCI.yml
+    - code/adf/*
+resources:
+  repositories:
+  - repository: templates
+    type: git
+    name: SyNeos Analytics Platform/devops
+pool:
+  vmImage: ubuntu-latest
+variables:
+- group: synhdq-dev-variables
+extends:
+  template: data-product-adf-ci.yml@templates
+  parameters:
+    azureSubscription: $(dataProductSubscription)
+    sourceDataFactoryName: $(dataFactoryName)
+    resourceGroupName: $(resourceGroupName)
+    adfConfigFolder: code/adf
+

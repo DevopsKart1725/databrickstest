@@ -1,0 +1,33 @@
+name: Dev-Build-$(rev:r)
+trigger:
+  batch: true
+  branches:
+    include:
+    - main
+  paths:
+    include:
+    - .ado/workflows/aml/dataProductAmlPipelineDevCD.yml
+    - code/aml/*
+resources:
+  repositories:
+  - repository: templates
+    type: git
+    name: SyNeos Analytics Platform/devops
+pool:
+  vmImage: ubuntu-latest
+variables:
+- group: synhdq-dev-variables
+- group: shiftleft-token
+extends:
+  template: aml/data-product-aml-cd.yml@templates
+  parameters:
+    resourceManagerConnectionName: $(resourceManagerConnectionName)
+    dataProductName: $(dataProductName)
+    dataProductSubscription: $(dataProductSubscription)
+    resourceGroupName: $(resourceGroupName)
+    amlWorkspaceName: $(amlWorkspaceName)
+    jupyterNotebookFilename: deployAMLPipeline.ipynb
+    kdbLicense: $(kdbLicense)
+    createPythonWheel: false
+    entrypointFilepaths: pipeline_one.py,pipeline_two.py
+

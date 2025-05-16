@@ -1,0 +1,49 @@
+name: Dev-Build-$(rev:r)
+trigger:
+  batch: true
+  branches:
+    include:
+    - main
+  paths:
+    include:
+    - .ado/workflows/databricks/dataProductDatabricksPipelineDev.yml
+    - code/databricks/*
+pool:
+  vmImage: ubuntu-latest
+resources:
+  repositories:
+  - repository: templates
+    type: git
+    name: SyNeos Analytics Platform/devops
+variables:
+- group: synhdq-dev-variables
+- name: databrickshost
+  value: 'https://adb-7973730123186347.7.azuredatabricks.net/'
+- name: sourcedatabricksnotebookpath
+  value: 'code/databricks/notebooks'
+- name: destdatabricksnotebookpath
+  value: '/$(dataProductName)'
+- name: databricksJarPath
+  value: 'dbfs:/FileStore/$(dataProductName)/jars'
+- name: sourceCodePath
+  value: 'code/databricks'
+- name: sourceCodeType
+  value: 'python'
+stages:
+- template: code-quality-template.yml@templates
+  parameters:
+    dataProductName: $(dataProductName)
+    sourceCodePath: $(sourceCodePath)
+    sourceCodeType: $(sourceCodeType)
+- template: databricks/dataProductDatabricksCICD.yml@templates
+  parameters:
+    databricks_host: $(databrickshost)
+    databricks_token: $(databricksPAT)
+    source_databricks_notebook_path: $(sourcedatabricksnotebookpath)
+    dest_databricks_notebook_path: $(destdatabricksnotebookpath)
+    databricks_Jar_Path: $(databricksJarPath)
+    generateJars: false
+    buildJarDirectoryPaths:
+    - code/databricks/path1
+    - code/databricks/path2
+

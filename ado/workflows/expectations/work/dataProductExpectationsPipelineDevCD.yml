@@ -1,0 +1,35 @@
+name: Data Product Expectations Work DEV
+
+trigger:
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - expectations/*
+      - .ado/workflows/expectations/dataProductExpectationsPipelineDevCD.yml
+
+pr:
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - expectations/*
+      - .ado/workflows/expectations/dataProductExpectationsPipelineDevCD.yml
+
+resources:
+  repositories:
+    - repository: embedded_templates
+      type: git
+      name: "Syneos Analytics Platform/devops"
+
+pool:
+  name: 'SNAP-DEV-Agent-Pool'
+  demands:
+  - Agent.Name -equals iepdlz01-dev-azdoagent001
+
+extends:
+  template: expectations/work/dataProductExpectationsDevCDTemplate.yml@embedded_templates
+  parameters:
+    variable_group_name: "demodp-dev-variables"

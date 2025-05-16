@@ -1,0 +1,35 @@
+trigger: none
+resources:
+  repositories:
+  - repository: templates
+    type: git
+    name: SyNeos Analytics Platform/devops
+  pipelines:
+  - pipeline: ci-pipeline
+    source: synhdq-STG-adf-CI
+    trigger:
+      branches:
+      - staging
+pool:
+  vmImage: ubuntu-latest
+variables:
+- group: synhdq-stg-variables
+extends:
+  template: data-product-adf-cd.yml@templates
+  parameters:
+    armServiceConnnection: $(resourceManagerConnectionName)
+    deployDataFactoryName: $(dataFactoryName)
+    resourceGroupName: $(resourceGroupName)
+    artifactPipeline: ci-pipeline
+    sourceDataFactoryName: $(devDataFactoryName)
+    overridenProperties: 
+      - "Corporate-Network-SHIR_properties_typeProperties_linkedInfo_resourceId /subscriptions/$(dataProductSubscription)/resourceGroups/iepdlz01-$(environment)-runtimes/providers/Microsoft.DataFactory/factories/iepdlz01-$(environment)-runtime-datafactory001/integrationRuntimes/dataLandingZoneShir-iepdlz01-$(environment)-shir001"
+      - "AzureDataLakeStorage300_properties_privateLinkResourceId /subscriptions/$(dataProductSubscription)/resourceGroups/iepdlz01-$(environment)-storage/providers/Microsoft.Storage/storageAccounts/iepdlz01$(environment)encur"
+  #    - "default_properties_GLBL_ADB_RSRC_ID_value /subscriptions/$(dataProductSubscription)/resourceGroups/iepdlz01-$(environment)-shared-databricks/providers/Microsoft.Databricks/workspaces/iepdlz01-$(environment)-shared-databricks001"
+   #   - "default_properties_GLBL_KeyVault_URL_value https://synhdq-$(environment)-vault001.vault.azure.net/"
+    #  - "default_properties_GLBL_ADLS_ENCUR_URL_value https://iepdlz01$(environment)encur.dfs.core.windows.net/"
+     # - "default_properties_GLBL_ADLS_RAW_URL_value https://iepdlz01$(environment)raw.dfs.core.windows.net/"
+      #- "default_properties_GLBL_ADB_CATLG_ENV_value iep_$(environment)"
+      #- "default_properties_GLBL_ENV_value $(environment)"
+     # - "default_properties_GLBL_EDL_CATLG_ENV_value edl_$(environment)"
+

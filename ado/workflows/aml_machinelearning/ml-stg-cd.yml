@@ -1,0 +1,53 @@
+parameters:
+- name: MODEL_NAME
+  displayName: Model Name
+  type: string
+- name: MODEL_VERSION
+  displayName: Model Version
+  type: string
+
+resources:
+  containers:
+  - container: mlops
+    image: mcr.microsoft.com/mlops/python:latest
+
+variables:
+- template: ml-variables-template.yml
+- group: demodp-stg-variables
+
+jobs:
+- job: "Model_CD_Pipeline"
+  displayName: "Model CD Pipeline"
+  container: mlops
+  steps:
+  - task: AzureCLI@1
+    displayName: "Install AzureML CLI"
+    inputs:
+      azureSubscription: '$(WORKSPACE_SVC_CONNECTION)'
+      scriptLocation: inlineScript
+      workingDirectory: $(Build.SourcesDirectory)
+      inlineScript: 'az extension add --source https://azurecliext.blob.core.windows.net/release/azure_cli_ml-1.27.0-py3-none-any.whl --yes'
+  - task: AzureCLI@1
+    displayName: "Deploy to ACI (CLI)"
+    inputs:
+      azureSubscription: $(WORKSPACE_SVC_CONNECTION)
+      scriptLocation: inlineScript
+      workingDirectory: $(Build.SourcesDirectory)/code/aml_machinelearning/diabetes_regression/scoring
+      inlineScript: |
+          set -e # fail on error
+          
+          az ml model deploy --name $(ACI_DEPLOYMENT_NAME) --model '${{ parameters.MODEL_NAME }}:${{ parameters.MODEL_VERSION }}' \
+          --ic inference_config.yml \
+          --dc deployment_config_aci.yml \
+          -g $(RESOURCE_GROUP) --workspace-name $(WORKSPACE_NAME) \
+          --overwrite -v
+  - task: AzureCLI@1
+    displayName: 'Smoke test'
+    inputs:
+      azureSubscription: '$(WORKSPACE_SVC_CONNECTION)'
+      scriptLocation: inlineScript
+      workingDirectory: $(CODE_DIR)
+      inlineScript: |
+        set -e # fail on error
+        export SUBSCRIPTION_ID=$(az account show --query id -o tsv)
+        python -m ml_service.util.smoke_test_scoring_service --type ACI --service "$(ACI_DEPLOYMENT_NAME)"
