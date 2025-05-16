@@ -1,0 +1,93 @@
+
+ {
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+   "location": {
+    "value": "eastus"
+   },
+   "environment": {
+    "value": "dev"
+   },
+   "prefix": {
+    "value": "iepdlz01"
+   },
+   "dataProductName": {
+    "value": "synhdq"
+   },
+   "dataProductTeamId": {
+    "value": "8c6611b5-9262-4b7f-b376-d34b3370b397"
+   },
+   "subnetName": {
+    "value": "synhdqDPSubnet"
+   },
+   "clientsecret": {
+    "value": "<devops-secret>"
+   },
+   "repoConfiguration": {
+    "value": {
+     "projectName": "IEP Data Team",
+     "repositoryName": "synhdq",
+     "accountName": "Syneos-IEP-IT-3595",
+     "collaborationBranch": "main",
+     "rootFolder": "/code/adf/"
+    }
+   },
+   "machineLearningComputeInstanceAdministrators": {
+    "value": [
+     
+    ]
+   },
+   "resourceGroupName": {
+    "value": "iepdlz01-dev-synhdq"
+   },
+   "enableDataFactory": {
+    "value": true
+   },
+   "enableAzureML": {
+    "value": true
+   },
+   "tags": {
+    "value": {
+     "Environment": "DEV"
+    }
+   },
+   "sqlFlavour": {
+    "value": "none"
+   },
+   "administratorPassword": {
+    "value": "<your-secure-password>"
+   },
+   "subscriptionId": {
+    "value": ""
+   },
+   "syneos_data_lake_subscriptionId": {
+    "value": ""
+   },
+   "virtualNetworkId": {
+    "value": "/subscriptions/d9f56f19-917a-4893-883e-1a93932f741b/resourceGroups/iepdlz01-dev-network/providers/Microsoft.Network/virtualNetworks/iepdlz01-dev-vnet"
+   },
+   "data_management_subscriptionId": {
+    "value": "11ee1a19-4ce3-49df-af57-7c551f59f0e4"
+   },
+   "enableCosmos": {
+    "value": false
+   },
+   "enableMonitoring": {
+    "value": true
+   },
+   "dataProductTeamEmail": {
+    "value": ""
+   },
+   "enableRoleAssignments": {
+    "value": true
+   },
+   "purviewStorageAccount": {
+    "value": "scaneastusjelguoc"
+   },
+   "purviewEventHub": {
+    "value": "Atlas-6d8d6192-be5c-44ab-afc8-44e741f13376"
+   }
+  }
+ }
+

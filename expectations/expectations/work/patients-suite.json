@@ -1,0 +1,58 @@
+{
+  "expectation_suite_name": "demodp-patients-suite",
+  "expectations": [
+    {
+      "expectation_type": "expect_table_column_count_to_be_between",
+      "kwargs": {
+        "column_count": 9,
+        "min_value": 8,
+        "max_value": 10
+      },
+      "meta": {
+        "notes": {
+          "format": "markdown",
+          "content": "The no of column should be in between 8 and 10 only"
+        }
+      }
+    },
+    {
+      "expectation_type": "expect_column_to_exist",
+      "kwargs": {
+        "column": "Gender"
+      },
+      "meta": {
+        "notes": {
+          "format": "markdown",
+          "content": "The columns ```gender``` and ```Age``` are mandatory"
+        }
+      }
+    },
+        {
+      "expectation_type": "expect_column_values_to_be_in_set",
+      "kwargs": {
+        "column": "City",
+        "value_set": [ "Dover Park", "Clydesville"]
+      },
+      "meta": {
+        "notes": {
+          "format": "markdown",
+          "content": "The cities should only be `Clydesville` or `Dover Park`."
+        }
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_not_be_null",
+      "kwargs": {
+        "column": "Age"
+      },
+      "meta": {}
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_unique",
+      "kwargs": {
+        "column": "Patient ID"
+      },
+      "meta": {}
+    }
+  ]
+}

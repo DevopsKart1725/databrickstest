@@ -1,0 +1,103 @@
+
+ {
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+   "location": {
+    "value": "eastus"
+   },
+   "environment": {
+    "value": "prd"
+   },
+   "prefix": {
+    "value": "iepdlz01"
+   },
+   "dataProductName": {
+    "value": "synhdq"
+   },
+   "dataProductTeamId": {
+    "value": "8c6611b5-9262-4b7f-b376-d34b3370b397"
+   },
+   "subnetName": {
+    "value": "synhdqDPSubnet"
+   },
+   "clientsecret": {
+    "value": "<devops-secret>"
+   },
+   "repoConfiguration": {
+    "value": {
+     
+    }
+   },
+   "machineLearningComputeInstanceAdministrators": {
+    "value": [
+     
+    ]
+   },
+   "resourceGroupName": {
+    "value": "iepdlz01-prd-synhdq"
+   },
+   "enableDataFactory": {
+    "value": true
+   },
+   "enableAzureML": {
+    "value": true
+   },
+   "tags": {
+    "value": {
+     "Environment": "PRD"
+    }
+   },
+   "sqlFlavour": {
+    "value": "none"
+   },
+   "administratorPassword": {
+    "value": "<your-secure-password>"
+   },
+   "subscriptionId": {
+    "value": ""
+   },
+   "syneos_data_lake_subscriptionId": {
+    "value": ""
+   },
+   "dbricksvnetId": {
+    "value": "/subscriptions/b868bfc6-44fd-459e-a9a1-06b7d98190f1/resourceGroups/iepdlz01-prd-network/providers/Microsoft.Network/virtualNetworks/iepdlz01-prd-databricks-vnet"
+   },
+   "virtualNetworkId": {
+    "value": "/subscriptions/b868bfc6-44fd-459e-a9a1-06b7d98190f1/resourceGroups/iepdlz01-prd-network/providers/Microsoft.Network/virtualNetworks/iepdlz01-prd-vnet"
+   },
+   "data_management_subscriptionId": {
+    "value": "df3de36d-ef42-44a4-8d83-3b387bf922a3"
+   },
+   "amlDatasets": {
+    "value": [
+     {
+      "name": "Unprocessed_JiraData",
+      "type": "tabular",
+      "datastoreName": "raw_zone",
+      "relativePath": "jira/**",
+      "sourceType": "json_lines_files"
+     }
+    ]
+   },
+   "enableCosmos": {
+    "value": false
+   },
+   "enableMonitoring": {
+    "value": true
+   },
+   "dataProductTeamEmail": {
+    "value": ""
+   },
+   "enableRoleAssignments": {
+    "value": true
+   },
+   "purviewStorageAccount": {
+    "value": "scaneastushqkptxt"
+   },
+   "purviewEventHub": {
+    "value": "Atlas-3285946e-27fe-4e2f-8ec3-9fe515158e09"
+   }
+  }
+ }
+

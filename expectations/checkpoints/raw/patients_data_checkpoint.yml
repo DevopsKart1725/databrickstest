@@ -1,0 +1,25 @@
+name: patients_data_checkpoint
+config_version: 1.0
+template_name:
+module_name: great_expectations.checkpoint
+class_name: Checkpoint
+run_name_template: '$FILE_NAME'
+expectation_suite_name:
+batch_request: {}
+validations:
+  - batch_request:
+      datasource_name: '$NAME-data'
+      data_connector_name: default_runtime_data_connector_name
+      data_asset_name: '$NAME-data'
+    expectation_suite_name: '$NAME-patients-suite'
+action_list:
+  - name: store_validation_result
+    action:
+      class_name: StoreValidationResultAction
+  - name: update_data_docs
+    action:
+      class_name: UpdateDataDocsAction
+      site_names: []
+evaluation_parameters: {}
+runtime_configuration: {}
+profilers: []
